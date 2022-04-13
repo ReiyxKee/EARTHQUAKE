@@ -908,8 +908,14 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Analytics: 0
+    Build: 0
     Collab: 0
+    Game Performance: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -923,10 +929,10 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 407af8e6-7348-4e62-891a-2a447346cc4c
+  cloudProjectId: fb2d2dac-e7cf-45a1-8433-c19d530541c9
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: EARTHQUAKE
+  projectName: EARTHQUAKE (2)
   organizationId: the-3-horseman
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
