@@ -1,0 +1,3 @@
+rep "EARTHQUAKE@THE_3_HORSEMAN@cloud"
+  path "/"
+    smartbranch "/main"
