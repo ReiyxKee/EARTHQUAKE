@@ -8,6 +8,15 @@ public class Destroyable_Floor : MonoBehaviour
     public bool PlayerOnPlatform = false;
     public bool Destroyed = false;
     public float time;
+    public float durabilitytime;
+
+    public Material[] Default_Texture;
+    public Material[] Cracked_Texture;
+    public Material[] Destroyed_Texture;
+
+    public MeshRenderer PlatformMesh;
+    public ParticleSystem Cracks;
+
     private void Update()
     {
         if(Destroyable)
@@ -15,6 +24,12 @@ public class Destroyable_Floor : MonoBehaviour
             if((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical")!= 0) && PlayerOnPlatform)
             {
                 time -= Time.deltaTime;
+
+                if(time < durabilitytime * 0.45f)
+                {
+                    PlatformMesh.materials = Cracked_Texture;
+                    Cracks.Play();
+                }
 
                 if(time <= 0)
                 {
@@ -36,6 +51,7 @@ public class Destroyable_Floor : MonoBehaviour
             if (time == 0)
             {
                 time = Random.Range(0.25f, 0.75f);
+                durabilitytime = time;
             }
         }
     }
@@ -80,15 +96,6 @@ public class Destroyable_Floor : MonoBehaviour
             M = GetComponent<SkinnedMeshRenderer>().sharedMesh;
         }
 
-        Material[] materials = new Material[0];
-        if (GetComponent<MeshRenderer>())
-        {
-            materials = GetComponent<MeshRenderer>().materials;
-        }
-        else if (GetComponent<SkinnedMeshRenderer>())
-        {
-            materials = GetComponent<SkinnedMeshRenderer>().materials;
-        }
 
         Vector3[] verts = M.vertices;
         Vector3[] normals = M.normals;
@@ -100,9 +107,9 @@ public class Destroyable_Floor : MonoBehaviour
 
             for (int i = 0; i < indices.Length; i += 3)
             {
-                Vector3[] newVerts = new Vector3[3];
-                Vector3[] newNormals = new Vector3[3];
-                Vector2[] newUvs = new Vector2[3];
+                Vector3[] newVerts = new Vector3[6];
+                Vector3[] newNormals = new Vector3[6];
+                Vector2[] newUvs = new Vector2[6];
                 for (int n = 0; n < 3; n++)
                 {
                     int index = indices[i + n];
@@ -116,24 +123,26 @@ public class Destroyable_Floor : MonoBehaviour
                 mesh.normals = newNormals;
                 mesh.uv = newUvs;
 
-                mesh.triangles = new int[] { 0, 1, 2, 2, 1, 0 };
+                mesh.triangles = new int[] { 0, 1, 2, 2, 3, 1, 1, 3, 0, 0, 3, 2,  2, 1, 0 };
+
 
                 GameObject GO = new GameObject("Triangle " + (i / 3));
                 GO.layer = LayerMask.NameToLayer("Particle");
                 GO.transform.position = transform.position;
                 GO.transform.rotation = transform.rotation;
-                GO.AddComponent<MeshRenderer>().material = materials[submesh];
+                GO.tag = "Untagged";
+                GO.AddComponent<MeshRenderer>().materials = Destroyed_Texture;
                 GO.AddComponent<MeshFilter>().mesh = mesh;
                 GO.AddComponent<BoxCollider>();
-                Vector3 explosionPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(0f, 0.5f), transform.position.z + Random.Range(-0.5f, 0.5f));
-                GO.AddComponent<Rigidbody>().AddExplosionForce(Random.Range(300, 500), explosionPos, 5);
+                Vector3 explosionPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + 1.5f, transform.position.z + Random.Range(-0.5f, 0.5f));
+                GO.AddComponent<Rigidbody>().AddExplosionForce(Random.Range(300, 500), explosionPos, 4);
                 Destroy(GO, 5 + Random.Range(0.0f, 5.0f));
             }
         }
 
         GetComponent<Renderer>().enabled = false;
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         if (destroy == true)
         {
             Destroy(gameObject);

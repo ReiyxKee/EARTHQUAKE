@@ -26,6 +26,11 @@ public class Player_Movement : MonoBehaviour
     public float ClimbForce = 5.0f;
     public float ClimbSpeed = 2.0f;
 
+    public bool isMove;
+    public bool isRun;
+    public bool isJump;
+    public float jumpTime = 0.25f;
+    public float _jumpTime;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -40,6 +45,11 @@ public class Player_Movement : MonoBehaviour
     float turnSmoothVelocity;
     public float turnSmoothTime = 0.1f;
 
+    public bool front;
+    public bool back;
+    public bool left;
+    public bool right;
+
     // Update is called once per frame
 
     private void Update()
@@ -47,8 +57,6 @@ public class Player_Movement : MonoBehaviour
         //jump
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         isJumpWall = Physics.CheckSphere(sideCheck.position, sideDistance, wallMask);
-
-
         
 
         if (isGrounded && velocity.y < 0)
@@ -58,8 +66,22 @@ public class Player_Movement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            isJump = true;
+            _jumpTime = jumpTime;
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }    
+
+        if(isJump)
+        {
+            if (_jumpTime > 0)
+            {
+                _jumpTime -= Time.deltaTime;
+            }
+            else
+            {
+                isJump = false;
+            }
+        }
         
         if (Input.GetButtonDown("Jump") && !isGrounded && isJumpWall)
         {
@@ -133,20 +155,56 @@ public class Player_Movement : MonoBehaviour
             //run
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                isRun = true;
                 speed = runspeed;
             }
             else
             {
+                isRun = false;
                 speed = walkspeed;
             }
 
             //walk
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
-            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+            
+            if (horizontal > 0)
+            {
+                right = true;
+                left = false;
+            }
+            else if(horizontal < 0)
+            {
+                left = true;
+                right = false;
+            }
+            else
+            {
+                right = false;
+                left = false;
+            }
+
+            if (vertical > 0)
+            {
+                front = true;
+                back = false;
+            }
+            else if (vertical < 0)
+            {
+                back = true;
+                front = false;
+            }
+            else
+            {
+                front = false;
+                back = false;
+            }
+
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
             if (direction.magnitude >= 0.1f)
             {
+                isMove = true;
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -154,6 +212,10 @@ public class Player_Movement : MonoBehaviour
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 controller.Move(moveDir.normalized * speed * Time.deltaTime);
             }
+            else
+            {
+                isMove = false;
+            }    
 
 
         }
@@ -179,14 +241,53 @@ public class Player_Movement : MonoBehaviour
         {
             float vertical = 0;
 
-            if (Input.GetAxisRaw("Vertical") > 0)
+            if (front)
             {
-                vertical = Input.GetAxisRaw("Vertical") * jumpDistanceFactor/2;
+                if (Input.GetAxisRaw("Vertical") > 0)
+                {
+                    vertical = Input.GetAxisRaw("Vertical") * jumpDistanceFactor / 2;
+                }
+                else if (Input.GetAxisRaw("Vertical") < 0)
+                {
+                    vertical = Input.GetAxisRaw("Vertical") * jumpDistanceFactor;
+                }
             }
-            else if(Input.GetAxisRaw("Vertical") < 0)
+            else if (back)
             {
-                vertical = Input.GetAxisRaw("Vertical") * jumpDistanceFactor;
+                if (Input.GetAxisRaw("Vertical") < 0)
+                {
+                    vertical = -Input.GetAxisRaw("Vertical") * jumpDistanceFactor / 2;
+                }
+                else if (Input.GetAxisRaw("Vertical") > 0)
+                {
+                    vertical = -Input.GetAxisRaw("Vertical") * jumpDistanceFactor;
+                }
             }
+            
+            if (left)
+            {
+                if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    vertical = -Input.GetAxisRaw("Horizontal") * jumpDistanceFactor / 2;
+                }
+                else if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    vertical = -Input.GetAxisRaw("Horizontal") * jumpDistanceFactor;
+                }
+            }
+            else if (right)
+            {
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    vertical = Input.GetAxisRaw("Horizontal") * jumpDistanceFactor / 2;
+                }
+                else if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    vertical = Input.GetAxisRaw("Horizontal") * jumpDistanceFactor;
+                }
+            }
+
+
             //jumping forward speed
             float character = player.eulerAngles.y;
 
