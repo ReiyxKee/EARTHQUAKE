@@ -21,7 +21,7 @@ public class Player_Movement : MonoBehaviour
     Vector3 velocity;
     public bool isGrounded;
     bool isJumpWall;
-    
+
     public bool isClimbing;
     public float ClimbForce = 5.0f;
     public float ClimbSpeed = 2.0f;
@@ -36,11 +36,16 @@ public class Player_Movement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
-    public Collider ColliderFront;
+    public Transform ColliderFront;
+    public float frontDistance;
     public Transform sideCheck;
     public LayerMask wallMask;
     public float sideDistance = 1.0f;
     public bool sideJump;
+
+
+    public bool isClimbWall;
+    public LayerMask climbMask;
 
     float turnSmoothVelocity;
     public float turnSmoothTime = 0.1f;
@@ -50,6 +55,9 @@ public class Player_Movement : MonoBehaviour
     public bool left;
     public bool right;
 
+    public float ClimbUpDuration = 1.25f;
+    public float ClimbUp;
+
     // Update is called once per frame
 
     private void Update()
@@ -57,7 +65,8 @@ public class Player_Movement : MonoBehaviour
         //jump
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         isJumpWall = Physics.CheckSphere(sideCheck.position, sideDistance, wallMask);
-        
+        isClimbWall = Physics.CheckSphere(ColliderFront.position, frontDistance, climbMask);
+
 
         if (isGrounded && velocity.y < 0)
         {
@@ -69,9 +78,9 @@ public class Player_Movement : MonoBehaviour
             isJump = true;
             _jumpTime = jumpTime;
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-        }    
+        }
 
-        if(isJump)
+        if (isJump)
         {
             if (_jumpTime > 0)
             {
@@ -82,20 +91,20 @@ public class Player_Movement : MonoBehaviour
                 isJump = false;
             }
         }
-        
-        if (Input.GetButtonDown("Jump") && !isGrounded && isJumpWall)
+
+        if (Input.GetButtonDown("Jump") && !isGrounded && (isJumpWall || isClimbWall))
         {
-            Debug.Log("SideJump");
+            //Debug.Log("SideJump");
             sideJump = true;
 
             RaycastHit hit;
 
             if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 10f))
             {
-                
+
                 Debug.Log(Vector3.Angle(transform.forward, hit.normal));
 
-                if (Vector3.Angle(transform.forward, hit.normal) < 160 && Vector3.Angle(transform.forward, hit.normal) > 0)
+                if (Vector3.Angle(transform.forward, hit.normal) < 160 && Vector3.Angle(transform.forward, hit.normal) > 0 && !isClimbWall)
                 {
                     //Bounce
                     Vector3 reflectV = Vector3.Reflect(transform.forward, hit.normal);
@@ -108,11 +117,11 @@ public class Player_Movement : MonoBehaviour
                     velocity.y = Mathf.Sqrt(jumpHeight * 0.5f * -2 * gravity);
                     controller.Move(moveDir.normalized * speed * Time.deltaTime);
                 }
-                else
+                else if (isClimbWall)
                 {
                     //climb mode
                     if (isClimbing)
-                    {                        
+                    {
                         transform.rotation = Quaternion.LookRotation(-transform.forward);
                         speed = walkspeed;
                         Vector3 moveDir = Quaternion.Euler(0f, transform.rotation.y, 0f) * Vector3.forward * 1.1f;
@@ -131,6 +140,37 @@ public class Player_Movement : MonoBehaviour
         }
 
 
+
+        if (!isClimbWall && isClimbing)
+        {
+            if (!isGrounded)
+            {
+                if (ClimbUp > 0)
+                {
+                    //ClimbUpAbove
+                    float character = player.eulerAngles.y;
+                    Vector3 moveDir = Quaternion.Euler(0f, character, 0f) * Vector3.forward;
+                    Vector3 direction = new Vector3(0f, speed, 0f).normalized;
+                    controller.Move(moveDir.normalized * (speed) * Time.deltaTime);
+                    controller.Move(direction * speed * 0.35f * Time.deltaTime);
+                }
+
+                if (ClimbUp == 0)
+                {
+                    ClimbUp = ClimbUpDuration;
+                }
+
+                ClimbUp -= Time.deltaTime;
+            }
+
+            if (ClimbUp <= 0 || isGrounded)
+            {
+                isClimbing = false;
+                ClimbUp = 0;
+            }
+        }
+
+
     }
 
     void FixedUpdate()
@@ -146,7 +186,6 @@ public class Player_Movement : MonoBehaviour
         {
             velocity.y += gravity * Time.fixedDeltaTime;
             velocity.x = ClimbForce;
-
         }
 
 
@@ -167,13 +206,13 @@ public class Player_Movement : MonoBehaviour
             //walk
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
-            
+
             if (horizontal > 0)
             {
                 right = true;
                 left = false;
             }
-            else if(horizontal < 0)
+            else if (horizontal < 0)
             {
                 left = true;
                 right = false;
@@ -200,7 +239,7 @@ public class Player_Movement : MonoBehaviour
                 back = false;
             }
 
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
             if (direction.magnitude >= 0.1f)
             {
@@ -211,15 +250,32 @@ public class Player_Movement : MonoBehaviour
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 controller.Move(moveDir.normalized * speed * Time.deltaTime);
+
+                if (isClimbWall)
+                {
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 10f))
+                    {
+                        if (!(Vector3.Angle(transform.forward, hit.normal) < 160 && Vector3.Angle(transform.forward, hit.normal) > 0))
+                        {
+                            //climb mode
+                            if (!isClimbing)
+                            {
+                                isClimbing = true;
+                            }
+                        }
+                    }
+                }
             }
             else
             {
                 isMove = false;
-            }    
+            }
 
 
         }
-        else if(isClimbing)
+        else if (isClimbing)
         {
             //Climb
             speed = walkspeed * 0.5f;
@@ -232,7 +288,7 @@ public class Player_Movement : MonoBehaviour
                 controller.Move(direction.normalized * speed * Time.deltaTime);
             }
 
-            if(vertical < 0 && isGrounded)
+            if (vertical < 0 && isGrounded)
             {
                 isClimbing = false;
             }
@@ -263,7 +319,7 @@ public class Player_Movement : MonoBehaviour
                     vertical = -Input.GetAxisRaw("Vertical") * jumpDistanceFactor;
                 }
             }
-            
+
             if (left)
             {
                 if (Input.GetAxisRaw("Horizontal") < 0)

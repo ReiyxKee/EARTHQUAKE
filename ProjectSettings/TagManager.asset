@@ -16,6 +16,7 @@ TagManager:
   - Wall jumping / running area
   - Wall jumping / wall jump
   - End Level
+  - Debris
   layers:
   - Default
   - TransparentFX
@@ -25,8 +26,8 @@ TagManager:
   - UI
   - Ground
   - Obstacles
-  - 
-  - 
+  - Climb Able Wall
+  - Wall
   - 
   - 
   - 
