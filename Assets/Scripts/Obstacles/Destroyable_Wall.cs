@@ -2,20 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destroyable_Floor : MonoBehaviour
+public class Destroyable_Wall : MonoBehaviour
 {
     public bool Destroyable = false;
-    public bool PlayerOnPlatform = false;
     public bool Destroyed = false;
-    public float time;
-    public float durabilitytime;
 
     public Material[] Default_Texture;
     public Material[] Cracked_Texture;
     public Material[] Destroyed_Texture;
 
     public MeshRenderer PlatformMesh;
-    public ParticleSystem Cracks;
 
     public int DebrisAmt;
     public bool DebrisRemainAfterDestroyed = false;
@@ -24,54 +20,16 @@ public class Destroyable_Floor : MonoBehaviour
     public Mesh[] DebrisMesh;
     private void Update()
     {
-        if(Destroyable)
-        {            
-            if(((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical")!= 0) && PlayerOnPlatform)|| ForceTriggerDestroy)
+        if (ForceTriggerDestroy)
+        {
+            if (!Destroyed)
             {
-                time -= Time.deltaTime;
-
-                if(time < durabilitytime * 0.45f)
-                {
-                    PlatformMesh.materials = Cracked_Texture;
-                    Cracks.Play();
-                }
-
-                if(time <= 0)
-                {
-                    if (!Destroyed)
-                    {
-                        Destroyed = true;
-                        DestroyPlatform();
-                    }
-                }
+                Destroyed = true;
+                DestroyPlatform();
             }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Destroyable = true;
-            if (time == 0)
-            {
-                time = Random.Range(0.25f, 0.75f);
-                durabilitytime = time;
-            }
-        }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        PlayerOnPlatform = other.tag == "Player" ? true : false;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            PlayerOnPlatform = false;
-        }
-    }
 
     public void DestroyPlatform()
     {
