@@ -62,7 +62,10 @@ public class Destroyable_Floor : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        PlayerOnPlatform = other.tag == "Player" ? true : false;
+        if (other.tag == "Player")
+        {
+            PlayerOnPlatform = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -138,11 +141,8 @@ public class Destroyable_Floor : MonoBehaviour
                 GO.AddComponent<MeshRenderer>().materials = Destroyed_Texture;
                 GO.AddComponent<MeshFilter>().mesh = mesh;
                 GO.AddComponent<BoxCollider>();
-                if (DebrisRemainAfterDestroyed)
-                {                    
-                    GO.tag = "Debris";
-                    GO.AddComponent<Damaging_Debris>();
-                }
+                GO.tag = "Debris";
+                GO.AddComponent<Damaging_Debris>();
 
                 Vector3 explosionPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + 1.5f, transform.position.z + Random.Range(-0.5f, 0.5f));
                 GO.AddComponent<Rigidbody>().AddExplosionForce(0, explosionPos, 2);

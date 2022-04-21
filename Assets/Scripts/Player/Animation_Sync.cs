@@ -24,5 +24,6 @@ public class Animation_Sync : MonoBehaviour
         animator.SetBool("isClimbMode", playerMovement.isClimbWall);
         animator.SetBool("isClimb", playerMovement.isClimbing_Anim);
         animator.SetBool("Climbing_Up", playerMovement.isClimbing_Up );
+        animator.SetBool("SideWall_Jump", playerMovement.sideJump);
     }
 }

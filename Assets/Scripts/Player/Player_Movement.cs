@@ -95,10 +95,14 @@ public class Player_Movement : MonoBehaviour
             }
         }
 
+        if (isGrounded)
+        {
+            sideJump = false;
+        }
+
         if (Input.GetButtonDown("Jump") && !isGrounded && (isJumpWall || isClimbWall))
         {
             //Debug.Log("SideJump");
-            sideJump = true;
 
             RaycastHit hit;
 
@@ -110,6 +114,7 @@ public class Player_Movement : MonoBehaviour
                 if (Vector3.Angle(transform.forward, hit.normal) < 160 && Vector3.Angle(transform.forward, hit.normal) > 0 && !isClimbWall)
                 {
                     //Bounce
+                    sideJump = true;
                     Vector3 reflectV = Vector3.Reflect(transform.forward, hit.normal);
 
 
@@ -163,6 +168,7 @@ public class Player_Movement : MonoBehaviour
                     ClimbUp = ClimbUpDuration;
                 }
 
+                isRun = false;
                 ClimbUp -= Time.deltaTime;
             }
 
