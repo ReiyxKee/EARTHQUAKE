@@ -23,6 +23,8 @@ public class Player_Movement : MonoBehaviour
     bool isJumpWall;
 
     public bool isClimbing;
+    public bool isClimbing_Up;
+    public bool isClimbing_Anim;
     public float ClimbForce = 5.0f;
     public float ClimbSpeed = 2.0f;
 
@@ -46,6 +48,7 @@ public class Player_Movement : MonoBehaviour
 
     public bool isClimbWall;
     public LayerMask climbMask;
+
 
     float turnSmoothVelocity;
     public float turnSmoothTime = 0.1f;
@@ -282,6 +285,9 @@ public class Player_Movement : MonoBehaviour
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             Vector3 direction = new Vector3(0f, vertical, 0f).normalized;
+
+            isClimbing_Anim = vertical == 0 ? false : true;
+            isClimbing_Up = vertical > 0 ? true: false;
 
             if (direction.magnitude >= 0.1f)
             {

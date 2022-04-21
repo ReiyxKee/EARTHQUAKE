@@ -5,6 +5,7 @@ using UnityEngine.Animations;
 
 public class Animation_Sync : MonoBehaviour
 {
+    public LRHand lrhand;
     public Player_Movement playerMovement;
     public Animator animator;
     // Start is called before the first frame update
@@ -19,5 +20,9 @@ public class Animation_Sync : MonoBehaviour
         animator.SetBool("isRun", playerMovement.isRun);
         animator.SetBool("isJump", playerMovement.isJump);
         animator.SetBool("isGrounded", playerMovement.isGrounded);
+        animator.SetBool("LeftHand", lrhand.Left);
+        animator.SetBool("isClimbMode", playerMovement.isClimbWall);
+        animator.SetBool("isClimb", playerMovement.isClimbing_Anim);
+        animator.SetBool("Climbing_Up", playerMovement.isClimbing_Up );
     }
 }
