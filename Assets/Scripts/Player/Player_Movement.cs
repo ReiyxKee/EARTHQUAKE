@@ -131,7 +131,7 @@ public class Player_Movement : MonoBehaviour
                     if (isClimbing)
                     {
                         transform.rotation = Quaternion.LookRotation(-transform.forward);
-                        speed = walkspeed;
+                        speed = runspeed;
                         Vector3 moveDir = Quaternion.Euler(0f, transform.rotation.y, 0f) * Vector3.forward * 1.1f;
                         velocity.y = Mathf.Sqrt(jumpHeight * 0.5f * -2 * gravity);
                         controller.Move(moveDir.normalized * speed * Time.deltaTime);
