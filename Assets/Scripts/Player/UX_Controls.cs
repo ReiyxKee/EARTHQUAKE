@@ -19,7 +19,6 @@ public class UX_Controls : MonoBehaviour
     {
         if (Input.GetKeyDown(CursorLocker))
         {
-            Debug.Log("");
             CursorLocked = !CursorLocked;
         }
 
