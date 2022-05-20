@@ -17,6 +17,7 @@ TagManager:
   - Wall jumping / wall jump
   - End Level
   - Debris
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Obstacles
   - Climb Able Wall
   - Wall
-  - 
+  - Post-processing
   - 
   - 
   - 
