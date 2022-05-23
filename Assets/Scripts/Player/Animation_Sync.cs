@@ -21,7 +21,7 @@ public class Animation_Sync : MonoBehaviour
         animator.SetBool("isJump", playerMovement.isJump);
         animator.SetBool("isGrounded", playerMovement.isGrounded);
         animator.SetBool("LeftHand", lrhand.Left);
-        animator.SetBool("isClimbMode", playerMovement.isClimbWall);
+        animator.SetBool("isClimbMode", playerMovement.isClimbing);
         animator.SetBool("isClimb", playerMovement.isClimbing_Anim);
         animator.SetBool("Climbing_Up", playerMovement.isClimbing_Up );
         animator.SetBool("SideWall_Jump", playerMovement.sideJump);
