@@ -25,7 +25,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 7980
+  controlID: 567
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 7981
+  controlID: 549
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 7838
+  controlID: 419
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -592,22 +592,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Assets/AssetStoreOriginals/_SNAPS_PrototypingAssets/About
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 85
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Assets/AssetStoreOriginals/_SNAPS_PrototypingAssets/About
   m_LastFoldersGridSize: 85
   m_LastProjectPath: D:\PROJETS\EARTHQUAKE\EARTHQUAKE
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: ea880000
-    m_LastClickedID: 35050
-    m_ExpandedIDs: 00000000828800008488000000ca9a3bffffff7f
+    m_SelectedIDs: 7c870000
+    m_LastClickedID: 34684
+    m_ExpandedIDs: 00000000da840000dc84000092850000788700007a87000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -635,7 +635,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000828800008488000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000da840000dc84000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -660,8 +660,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: c85c0100
-    m_LastClickedInstanceID: 89288
+    m_SelectedInstanceIDs: 1a870000
+    m_LastClickedInstanceID: 34586
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000e4290100e8960200ea960200b86b0000a46b0000906b00000000000016b0010026eb0100a24d0100b6a300002a6c0000
     m_RenameOverlay:
@@ -833,8 +833,8 @@ MonoBehaviour:
     y: 0
     width: 653
     height: 410
-  m_MinSize: {x: 142, y: 51}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 140, y: 30}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 13}
@@ -917,8 +917,8 @@ MonoBehaviour:
     y: 0
     width: 200
     height: 939
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -957,7 +957,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 224797ff36df9dff602a9eff7acb9eff6ec9ffff32e7ffff10f1ffffe6740000ea740000ee7a0000de7c00008a5d01006863010014660100321f030004200300
+      m_ExpandedIDs: c8faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1000,8 +1000,8 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 939
-  m_MinSize: {x: 276, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -1042,7 +1042,7 @@ MonoBehaviour:
     m_CachedPref: -151
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 89288
+  m_LastInspectedObjectInstanceID: 34586
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1083,7 +1083,7 @@ MonoBehaviour:
     m_CachedPref: 151
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 89288
+  m_LastInspectedObjectInstanceID: 34586
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
