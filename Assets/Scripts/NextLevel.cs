@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 public class NextLevel : MonoBehaviour
 {
     public int SceneNumber;
- void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        ChangeScene(SceneNumber);
-        PlayerPrefs.SetFloat("TimeSpend", GameObject.Find("Player_Prefab/Player").GetComponent<Player_Stat>().TimeSpend);
-        PlayerPrefs.SetInt("NextScene", 1);
+        if (other.tag == "Player")
+        {
+            ChangeScene(SceneNumber);
+            PlayerPrefs.SetFloat("TimeSpend", GameObject.Find("Player_Prefab/Player").GetComponent<Player_Stat>().TimeSpend);
+            PlayerPrefs.SetInt("NextScene", 1);
+        }
     }
 
     public void ChangeScene(int sceneNumber)
