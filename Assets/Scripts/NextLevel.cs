@@ -20,4 +20,9 @@ public class NextLevel : MonoBehaviour
     {
         SceneManager.LoadScene(sceneNumber);
     }
+
+    public void ResetPlayerPref()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

@@ -43,7 +43,7 @@ public class Checkpoint_Manager : MonoBehaviour
         Player.GetComponent<CharacterController>().enabled = false;
         Player.transform.position = LatestCheckPoint;
         Player.GetComponent<CharacterController>().enabled = true;
-        Player.GetComponent<Player_Stat>().HP = 100;
+        Player.GetComponent<Player_Stat>().HP = PlayerPrefs.GetFloat("HP");
     }
 
 }

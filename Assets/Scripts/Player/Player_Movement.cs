@@ -61,6 +61,7 @@ public class Player_Movement : MonoBehaviour
     public float ClimbUpDuration = 1.25f;
     public float ClimbUp;
 
+    public bool Climbable;
     // Update is called once per frame
 
     private void Update()
@@ -131,7 +132,7 @@ public class Player_Movement : MonoBehaviour
                     if (isClimbing)
                     {
                         transform.rotation = Quaternion.LookRotation(-transform.forward);
-                        speed = walkspeed;
+                        speed = runspeed * 0.5f;
                         Vector3 moveDir = Quaternion.Euler(0f, transform.rotation.y, 0f) * Vector3.forward * 1.1f;
                         velocity.y = Mathf.Sqrt(jumpHeight * 0.5f * -2 * gravity);
                         controller.Move(moveDir.normalized * speed * Time.deltaTime);
@@ -140,6 +141,7 @@ public class Player_Movement : MonoBehaviour
                     }
                     else
                     {
+                        transform.rotation = Quaternion.LookRotation(hit.transform.forward);
                         isClimbing = true;
                     }
                 }
@@ -272,6 +274,7 @@ public class Player_Movement : MonoBehaviour
                             if (!isClimbing)
                             {
                                 isClimbing = true;
+                                transform.rotation = Quaternion.LookRotation(hit.transform.forward);
                             }
                         }
                     }
@@ -279,6 +282,7 @@ public class Player_Movement : MonoBehaviour
             }
             else
             {
+                Climbable = false;
                 isMove = false;
             }
 

@@ -27,6 +27,9 @@ public class Checkpoint : MonoBehaviour
 
             PlayerPrefs.SetFloat("TimeSpend", GameObject.Find("Player_Prefab/Player").GetComponent<Player_Stat>().TimeSpend);
 
+            PlayerPrefs.SetFloat("HP", GameObject.Find("Player_Prefab/Player").GetComponent<Player_Stat>().HP);
+
+
             CheckpointUI.SetActive(true);
             CheckpointUI.GetComponent<UI_Checkpoint>().timer = 3;
             CheckpointUI.GetComponent<UI_Checkpoint>().reset = false;
