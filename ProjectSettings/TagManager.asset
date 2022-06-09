@@ -18,6 +18,9 @@ TagManager:
   - End Level
   - Debris
   - FxTemporaire
+  - DestroySound
+  - GetHitSound
+  - GetHitSound2
   layers:
   - Default
   - TransparentFX

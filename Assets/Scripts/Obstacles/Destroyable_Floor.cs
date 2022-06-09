@@ -21,6 +21,8 @@ public class Destroyable_Floor : MonoBehaviour
     public bool DebrisRemainAfterDestroyed = false;
     public bool ForceTriggerDestroy = false;
 
+    private AudioSource DestroySound;
+
     public Mesh[] DebrisMesh;
     private void Update()
     {
@@ -52,6 +54,8 @@ public class Destroyable_Floor : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            DestroySoundPlay();
+
             Destroyable = true;
             if (time == 0)
             {
@@ -163,5 +167,12 @@ public class Destroyable_Floor : MonoBehaviour
         }
 
 
+    }
+
+    void DestroySoundPlay()
+    {
+        DestroySound = GameObject.FindGameObjectWithTag("DestroySound").GetComponent<AudioSource>();
+
+        DestroySound.Play();
     }
 }

@@ -6,6 +6,8 @@ public class Damaging_Debris : MonoBehaviour
 {
     public GameObject Damaging;
     public bool Floored = false;
+
+    public AudioSource gethitsound, gethitsound2;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,7 @@ public class Damaging_Debris : MonoBehaviour
         Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Player" && !Floored)
         {
+            GetHitSoundPlay();
             Damaging.GetComponent<DamagedUI>().Timer += 0.75f;
             collision.gameObject.GetComponent<Player_Stat>().HP -= 10;
             Floored = true;
@@ -43,5 +46,13 @@ public class Damaging_Debris : MonoBehaviour
             this.gameObject.layer = 6;
             Floored = true;
         }
+    }
+
+    private void GetHitSoundPlay()
+    {
+        gethitsound = GameObject.FindGameObjectWithTag("GetHitSound").GetComponent<AudioSource>();
+        gethitsound2 = GameObject.FindGameObjectWithTag("GetHitSound2").GetComponent<AudioSource>();
+        gethitsound.Play();
+        gethitsound2.Play();
     }
 }
