@@ -164,6 +164,7 @@ public class Destroyable_Floor : MonoBehaviour
         if (destroy == true)
         {
             Destroy(gameObject);
+            Destroy(gameObject.transform.GetComponent<Collider>());
         }
 
 
